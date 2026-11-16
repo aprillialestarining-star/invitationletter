@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Undangan Rapat Triwulan — UKM F Excellent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #FAF5EE;
+      --ivory: #FFFDF9;
+      --soft-beige: #EFE4D4;
+      --envelope-body: #F5EBDD;
+      --envelope-flap: #EADBC8;
+      --envelope-inner: #DFCCB5;
+      --dusty-pink: #D89A9E;
+      --dusty-pink-light: #F3E0E1;
+      --gold: #C59B5F;
+      --gold-dark: #9E773E;
+      --gold-light: #E6CFA8;
+      --text-main: #43372F;
+      --text-muted: #78675B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      background-color: var(--bg-cream);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      /* Subtle paper grain texture */
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(216, 154, 158, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(197, 155, 95, 0.14) 0%, transparent 45%),
+        repeating-linear-gradient(0deg, rgba(160, 140, 120, 0.03) 0px, rgba(160, 140, 120, 0.03) 1px, transparent 1px, transparent 3px),
+        repeating-linear-gradient(90deg, rgba(160, 140, 120, 0.03) 0px, rgba(160, 140, 120, 0.03) 1px, transparent 1px, transparent 3px);
+    }
+
+    /* Ambient Floating Decorations */
+    .ambient-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .sparkle {
+      position: absolute;
+      color: var(--gold);
+      opacity: 0;
+      animation: twinkle var(--dur, 4s) ease-in-out infinite var(--delay, 0s);
+    }
+
+    .petal {
+      position: absolute;
+      width: 12px;
+      height: 16px;
+      background: linear-gradient(135deg, var(--dusty-pink-light), var(--dusty-pink));
+      border-radius: 70% 10% 70% 10%;
+      opacity: 0.45;
+      animation: floatPetal var(--dur, 10s) ease-in-out infinite var(--delay, 0s);
+    }
+
+    @keyframes twinkle {
+      0%, 100% { transform: scale(0.5) rotate(0deg); opacity: 0.15; }
+      50% { transform: scale(1.15) rotate(25deg); opacity: 0.85; }
+    }
+
+    @keyframes floatPetal {
+      0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+      50% { transform: translateY(-18px) translateX(10px) rotate(35deg); }
+      100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+    }
+
+    /* Main Stage Container (Mobile-First 100dvh) */
+    .stage {
+      position: relative;
+      width: 100%;
+      max-width: 430px;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 10;
+    }
+
+    /* ================= ENVELOPE SCENE ================= */
+    .envelope-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 340px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+      z-index: 15;
+    }
+
+    .envelope-wrapper.hidden-stage {
+      opacity: 0;
+      transform: translateY(80px) scale(0.85);
+      pointer-events: none;
+    }
+
+    .intro-header {
+      text-align: center;
+      margin-bottom: 22px;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .envelope-wrapper.opening .intro-header {
+      opacity: 0;
+      transform: translateY(-12px);
+    }
+
+    .intro-tag {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+      color: var(--gold-dark);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .intro-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.65rem;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    /* 3D Envelope Box */
+    .envelope-3d {
+      position: relative;
+      width: 310px;
+      height: 205px;
+      perspective: 1200px;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .envelope-3d:active,
+    .envelope-3d.tapped {
+      transform: scale(0.96) rotate(-1deg);
+    }
+
+    .envelope-shadow {
+      position: absolute;
+      bottom: -16px;
+      left: 10%;
+      width: 80%;
+      height: 20px;
+      background: radial-gradient(ellipse at center, rgba(67, 55, 47, 0.22) 0%, transparent 70%);
+      border-radius: 50%;
+      transition: all 0.6s ease;
+    }
+
+    /* Back Base of Envelope */
+    .env-back {
+      position: absolute;
+      inset: 0;
+      background: var(--envelope-inner);
+      border-radius: 8px;
+      border: 1px solid rgba(197, 155, 95, 0.45);
+      box-shadow: 0 14px 32px rgba(67, 55, 47, 0.14);
+      overflow: hidden;
+    }
+
+    /* Letter Preview Inside Envelope before full expansion */
+    .letter-peek {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 8px;
+      height: 182px;
+      background: var(--ivory);
+      border: 1px solid var(--gold-light);
+      border-radius: 6px;
+      padding: 16px 14px;
+      text-align: center;
+      z-index: 2;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      transform: translateY(0);
+      transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .letter-peek-border {
+      width: 100%;
+      height: 100%;
+      border: 1px solid rgba(197, 155, 95, 0.4);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .letter-peek span {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      color: var(--gold-dark);
+    }
+
+    .letter-peek h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+
+    /* Slide letter upward out of envelope */
+    .envelope-wrapper.letter-rising .letter-peek {
+      transform: translateY(-135px);
+      z-index: 6;
+    }
+
+    /* Envelope Front Pocket (Left, Right, Bottom Triangles) */
+    .env-pocket {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .env-pocket::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #F6EDE0 0%, #EFE1CE 100%);
+      clip-path: polygon(0 0, 50% 54%, 0 100%);
+    }
+
+    .env-pocket::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(225deg, #F4E9DA 0%, #EBDEC9 100%);
+      clip-path: polygon(100% 0, 50% 54%, 100% 100%);
+    }
+
+    .env-bottom {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      background: linear-gradient(0deg, #F9F2E7 0%, #EFE2D0 100%);
+      clip-path: polygon(0 100%, 50% 48%, 100% 100%);
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      filter: drop-shadow(0 -2px 4px rgba(67, 55, 47, 0.08));
+    }
+
+    /* Gold Trim Line on Bottom Flap */
+    .env-bottom-trim {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      background: var(--gold);
+      opacity: 0.45;
+      clip-path: polygon(0 100%, 50% 47.5%, 100% 100%, 99% 100%, 50% 48.5%, 1% 100%);
+    }
+
+    /* Top 3D Flap */
+    .env-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 118px;
+      z-index: 7;
+      transform-origin: top center;
+      transform-style: preserve-3d;
+      transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.1s linear 0.4s;
+      pointer-events: none;
+    }
+
+    .env-flap-outer {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #F7EFE3 0%, #E7D6C0 100%);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      backface-visibility: hidden;
+      filter: drop-shadow(0 4px 6px rgba(67, 55, 47, 0.14));
+    }
+
+    .env-flap-gold-edge {
+      position: absolute;
+      inset: 0;
+      background: var(--gold);
+      opacity: 0.6;
+      clip-path: polygon(0 0, 2% 0, 50% 97%, 98% 0, 100% 0, 50% 100%);
+      backface-visibility: hidden;
+    }
+
+    .env-flap-inner {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, #E2CEB5 0%, #D5BFA3 100%);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform: rotateX(180deg);
+      backface-visibility: hidden;
+    }
+
+    .envelope-wrapper.flap-open .env-flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    /* Decorative Wax Seal & Ribbon */
+    .wax-seal {
+      position: absolute;
+      top: 92px;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #E2BA78, #B58747 70%, #8F662E 100%);
+      box-shadow:
+        0 4px 12px rgba(143, 102, 46, 0.45),
+        inset 0 2px 4px rgba(255, 255, 255, 0.45),
+        inset 0 -2px 5px rgba(67, 45, 18, 0.4);
+      z-index: 8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.45s ease;
+    }
+
+    .wax-seal::before {
+      content: "";
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px dashed rgba(255, 248, 232, 0.7);
+      position: absolute;
+    }
+
+    .wax-seal-monogram {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #FFF9EE;
+      letter-spacing: 0.05em;
+      text-shadow: 0 1px 2px rgba(84, 56, 20, 0.5);
+    }
+
+    .envelope-wrapper.seal-broken .wax-seal {
+      transform: translate(-50%, -50%) scale(1.35) rotate(20deg);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Tap Instruction & CTA Button */
+    .envelope-actions {
+      margin-top: 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+
+    .envelope-wrapper.opening .envelope-actions {
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+    }
+
+    .tap-hint {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: pulseHint 2.2s ease-in-out infinite;
+    }
+
+    @keyframes pulseHint {
+      0%, 100% { opacity: 0.6; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(-2px); }
+    }
+
+    .btn-open-inv {
+      background: linear-gradient(135deg, #CFA668 0%, #B38646 100%);
+      color: #FFFDF9;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 999px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(179, 134, 70, 0.32), inset 0 1px 1px rgba(255,255,255,0.45);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+    }
+
+    .btn-open-inv:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(179, 134, 70, 0.4);
+    }
+
+    .btn-open-inv:active {
+      transform: scale(0.94);
+    }
+
+    /* ================= FULL INVITATION CARD ================= */
+    .invitation-card-container {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      z-index: 20;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(0.62) translateY(40px);
+      transition: opacity 0.75s ease, transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .invitation-card-container.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+    }
+
+    .invitation-card {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      height: calc(100dvh - 24px);
+      max-height: 760px;
+      background-color: var(--ivory);
+      background-image:
+        radial-gradient(circle at top right, rgba(216, 154, 158, 0.12), transparent 40%),
+        radial-gradient(circle at bottom left, rgba(197, 155, 95, 0.12), transparent 40%);
+      border-radius: 18px;
+      box-shadow:
+        0 20px 50px rgba(67, 55, 47, 0.16),
+        0 0 0 1px rgba(197, 155, 95, 0.35);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .card-inner-frame {
+      position: relative;
+      flex: 1;
+      border: 1.5px solid rgba(197, 155, 95, 0.55);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .card-inner-frame::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Corner Floral SVG Ornaments */
+    .corner-ornament {
+      position: absolute;
+      width: 46px;
+      height: 46px;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+
+    .corner-tl { top: 4px; left: 4px; }
+    .corner-tr { top: 4px; right: 4px; transform: scaleX(-1); }
+    .corner-bl { bottom: 4px; left: 4px; transform: scaleY(-1); }
+    .corner-br { bottom: 4px; right: 4px; transform: scale(-1, -1); }
+
+    /* Stagger Animation Items */
+    .stagger-item {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .invitation-card-container.revealed .stagger-item {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Typography & Layout Inside Card (Compact to fit 100dvh cleanly) */
+    .cordially {
+      font-family: 'Cinzel', serif;
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: var(--gold-dark);
+      margin-top: 2px;
+    }
+
+    .divider-floral {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 4px auto;
+      color: var(--gold);
+      font-size: 0.7rem;
+    }
+
+    .divider-floral::before,
+    .divider-floral::after {
+      content: "";
+      width: 38px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .opening-copy {
+      font-size: 0.75rem;
+      line-height: 1.42;
+      color: var(--text-muted);
+      padding: 0 4px;
+    }
+
+    .event-title-block {
+      margin: 4px 0;
+    }
+
+    .event-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.52rem;
+      font-weight: 700;
+      line-height: 1.08;
+      color: var(--text-main);
+      letter-spacing: 0.03em;
+    }
+
+    .event-subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--dusty-pink);
+      letter-spacing: 0.14em;
+      margin-top: 2px;
+    }
+
+    .invite-purpose {
+      font-size: 0.73rem;
+      line-height: 1.42;
+      color: var(--text-main);
+      padding: 0 4px;
+    }
+
+    /* Countdown Timer Box */
+    .countdown-box {
+      background: linear-gradient(135deg, rgba(239, 228, 212, 0.65), rgba(243, 224, 225, 0.45));
+      border: 1px solid rgba(197, 155, 95, 0.35);
+      border-radius: 10px;
+      padding: 6px 8px;
+      margin: 4px 0;
+    }
+
+    .countdown-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      color: var(--gold-dark);
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .cd-unit {
+      background: rgba(255, 253, 249, 0.88);
+      border-radius: 7px;
+      padding: 4px 2px;
+      border: 1px solid rgba(197, 155, 95, 0.25);
+    }
+
+    .cd-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1;
+    }
+
+    .cd-txt {
+      font-size: 0.56rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Event Details Grid */
+    .details-section {
+      background: rgba(255, 255, 255, 0.65);
+      border-top: 1px solid rgba(197, 155, 95, 0.35);
+      border-bottom: 1px solid rgba(197, 155, 95, 0.35);
+      padding: 7px 8px;
+      margin: 3px 0;
+    }
+
+    .details-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--gold-dark);
+      margin-bottom: 5px;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px 8px;
+      text-align: left;
+    }
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      background: rgba(250, 245, 238, 0.85);
+      padding: 5px 8px;
+      border-radius: 7px;
+      border-left: 2.5px solid var(--gold);
+    }
+
+    .detail-label {
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .detail-value {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-top: 1px;
+    }
+
+    /* Closing Quote */
+    .closing-block {
+      margin: 3px 0;
+    }
+
+    .presence-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--gold-dark);
+    }
+
+    .closing-sub {
+      font-size: 0.69rem;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .regards {
+      margin-top: 3px;
+      font-size: 0.68rem;
+      color: var(--text-main);
+    }
+
+    .regards strong {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      color: var(--gold-dark);
+      letter-spacing: 0.08em;
+    }
+
+    /* Interactive Action Buttons (RSVP & Calendar) */
+    .actions-area {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .rsvp-row {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 7px;
+    }
+
+    .btn-action {
+      border: none;
+      border-radius: 9px;
+      padding: 8px 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease, box-shadow 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .btn-action:active {
+      transform: scale(0.93);
+    }
+
+    .btn-attend {
+      background: linear-gradient(135deg, #C59B5F 0%, #A97E41 100%);
+      color: #FFFDF9;
+      box-shadow: 0 4px 12px rgba(169, 126, 65, 0.28);
+    }
+
+    .btn-attend.confirmed {
+      background: linear-gradient(135deg, #6E9877 0%, #527B5B 100%);
+      box-shadow: 0 4px 12px rgba(82, 123, 91, 0.3);
+    }
+
+    /* CAN'T ATTEND button with playful forced-attend strikethrough */
+    .btn-cant {
+      background: #F4EAE6;
+      color: #9A847B;
+      border: 1px solid rgba(216, 154, 158, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-cant .cant-text {
+      text-decoration: line-through;
+      text-decoration-thickness: 1.8px;
+      text-decoration-color: #C46D73;
+      opacity: 0.85;
+    }
+
+    .btn-cant.shake {
+      animation: playfulShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+      background: #F8E1E3;
+      border-color: #D89A9E;
+    }
+
+    @keyframes playfulShake {
+      10%, 90% { transform: translateX(-2px) rotate(-1deg); }
+      20%, 80% { transform: translateX(3px) rotate(1deg); }
+      30%, 50%, 70% { transform: translateX(-4px); }
+      40%, 60% { transform: translateX(4px); }
+    }
+
+    .btn-calendar {
+      background: var(--ivory);
+      color: var(--gold-dark);
+      border: 1px solid var(--gold);
+      padding: 7px 12px;
+    }
+
+    .btn-calendar:hover {
+      background: var(--soft-beige);
+    }
+
+    /* RSVP Feedback Toast Banner */
+    .rsvp-feedback {
+      font-size: 0.67rem;
+      font-weight: 500;
+      padding: 5px 8px;
+      border-radius: 7px;
+      background: var(--dusty-pink-light);
+      color: #6B3E42;
+      border: 1px solid rgba(216, 154, 158, 0.45);
+      display: none;
+      animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .rsvp-feedback.show {
+      display: block;
+    }
+
+    .rsvp-feedback.success {
+      background: #E8F3EA;
+      color: #2E5A36;
+      border-color: rgba(110, 152, 119, 0.45);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.92) translateY(4px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Confetti / Sparkle Burst Canvas */
+    #burstCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    /* Small screens height adjustment */
+    @media (max-height: 670px) {
+      .card-inner-frame { padding: 10px 12px; }
+      .event-title { font-size: 1.32rem; }
+      .opening-copy, .invite-purpose { font-size: 0.69rem; line-height: 1.35; }
+      .cd-num { font-size: 1rem; }
+      .detail-item { padding: 4px 6px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Ambient Sparkles & Petals -->
+  <div class="ambient-layer" id="ambientLayer"></div>
+  <canvas id="burstCanvas"></canvas>
+
+  <main class="stage">
+    <!-- ================= INITIAL CLOSED ENVELOPE VIEW ================= -->
+    <section class="envelope-wrapper" id="envelopeWrapper">
+      <div class="intro-header">
+        <div class="intro-tag">UKM F Excellent</div>
+        <h1 class="intro-title">A Special Invitation For You</h1>
+      </div>
+
+      <div class="envelope-3d" id="envelope3d" role="button" tabindex="0" aria-label="Buka Amplop Undangan">
+        <div class="envelope-shadow"></div>
+        <div class="env-back"></div>
+
+        <!-- Preview Letter Inside -->
+        <div class="letter-peek" id="letterPeek">
+          <div class="letter-peek-border">
+            <span>YOU ARE CORDIALLY INVITED</span>
+            <h4>Rapat Triwulan<br>UKM F Excellent</h4>
+          </div>
+        </div>
+
+        <!-- Front Folds -->
+        <div class="env-pocket"></div>
+        <div class="env-bottom"></div>
+        <div class="env-bottom-trim"></div>
+
+        <!-- 3D Top Flap -->
+        <div class="env-flap">
+          <div class="env-flap-outer"></div>
+          <div class="env-flap-gold-edge"></div>
+          <div class="env-flap-inner"></div>
+        </div>
+
+        <!-- Wax Seal -->
+        <div class="wax-seal">
+          <span class="wax-seal-monogram">FE</span>
+        </div>
+      </div>
+
+      <div class="envelope-actions">
+        <p class="tap-hint">✦ Tap the envelope to open ✦</p>
+        <button type="button" class="btn-open-inv" id="openBtn">OPEN INVITATION</button>
+      </div>
+    </section>
+
+    <!-- ================= OPENED INVITATION LETTER VIEW ================= -->
+    <section class="invitation-card-container" id="invitationContainer" aria-hidden="true">
+      <article class="invitation-card">
+        <div class="card-inner-frame">
+          <!-- Floral Corner Ornaments -->
+          <svg class="corner-ornament corner-tl" viewBox="0 0 64 64" fill="none">
+            <path d="M4 58C4 28 28 4 58 4" stroke="#C59B5F" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M12 50C12 29 29 12 50 12" stroke="#D89A9E" stroke-width="1" stroke-dasharray="2 3"/>
+            <circle cx="16" cy="16" r="4" fill="#D89A9E" opacity="0.75"/>
+            <circle cx="26" cy="10" r="2.5" fill="#C59B5F" opacity="0.7"/>
+            <circle cx="10" cy="26" r="2.5" fill="#C59B5F" opacity="0.7"/>
+            <path d="M16 16L21 21" stroke="#C59B5F" stroke-width="1"/>
+          </svg>
+          <svg class="corner-ornament corner-tr" viewBox="0 0 64 64" fill="none">
+            <path d="M4 58C4 28 28 4 58 4" stroke="#C59B5F" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M12 50C12 29 29 12 50 12" stroke="#D89A9E" stroke-width="1" stroke-dasharray="2 3"/>
+            <circle cx="16" cy="16" r="4" fill="#D89A9E" opacity="0.75"/>
+            <circle cx="26" cy="10" r="2.5" fill="#C59B5F" opacity="0.7"/>
+            <circle cx="10" cy="26" r="2.5" fill="#C59B5F" opacity="0.7"/>
+          </svg>
+          <svg class="corner-ornament corner-bl" viewBox="0 0 64 64" fill="none">
+            <path d="M4 58C4 28 28 4 58 4" stroke="#C59B5F" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="16" cy="16" r="3.5" fill="#D89A9E" opacity="0.7"/>
+            <circle cx="24" cy="11" r="2" fill="#C59B5F" opacity="0.7"/>
+          </svg>
+          <svg class="corner-ornament corner-br" viewBox="0 0 64 64" fill="none">
+            <path d="M4 58C4 28 28 4 58 4" stroke="#C59B5F" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="16" cy="16" r="3.5" fill="#D89A9E" opacity="0.7"/>
+            <circle cx="24" cy="11" r="2" fill="#C59B5F" opacity="0.7"/>
+          </svg>
+
+          <!-- Header -->
+          <div class="stagger-item">
+            <div class="cordially">YOU ARE CORDIALLY INVITED</div>
+            <div class="divider-floral">❀ ✦ ❀</div>
+            <p class="opening-copy">
+              Dengan penuh rasa kebersamaan, kami mengundang seluruh anggota <strong>UKM F Excellent</strong> untuk hadir dalam kegiatan:
+            </p>
+          </div>
+
+          <!-- Event Main Title -->
+          <div class="event-title-block stagger-item">
+            <h2 class="event-title">RAPAT TRIWULAN</h2>
+            <div class="event-subtitle">UKM F EXCELLENT</div>
+          </div>
+
+          <!-- Purpose Copy -->
+          <p class="invite-purpose stagger-item">
+            Mari luangkan waktu untuk berkumpul, berdiskusi, menyampaikan aspirasi, serta mempererat kebersamaan demi kemajuan organisasi.
+          </p>
+
+          <!-- Live Countdown (WIB UTC+7) -->
+          <div class="countdown-box stagger-item">
+            <div class="countdown-label" id="countdownStatus">MENUJU HARI ACARA (WIB)</div>
+            <div class="countdown-grid">
+              <div class="cd-unit">
+                <div class="cd-num" id="cdDays">00</div>
+                <div class="cd-txt">Hari</div>
+              </div>
+              <div class="cd-unit">
+                <div class="cd-num" id="cdHours">00</div>
+                <div class="cd-txt">Jam</div>
+              </div>
+              <div class="cd-unit">
+                <div class="cd-num" id="cdMins">00</div>
+                <div class="cd-txt">Menit</div>
+              </div>
+              <div class="cd-unit">
+                <div class="cd-num" id="cdSecs">00</div>
+                <div class="cd-txt">Detik</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Event Details -->
+          <div class="details-section stagger-item">
+            <div class="details-heading">DETAIL ACARA</div>
+            <div class="details-grid">
+              <div class="detail-item">
+                <span class="detail-label">📅 Tanggal</span>
+                <span class="detail-value">Minggu, 22 Nov 2026</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">⏰ Waktu</span>
+                <span class="detail-value">14.00 WIB – selesai</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">📍 Tempat</span>
+                <span class="detail-value">Classic Caffe</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">👔 Dress Code</span>
+                <span class="detail-value">PDH Excellent</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Warm Closing -->
+          <div class="closing-block stagger-item">
+            <div class="presence-quote">“Your presence means a lot to us.”</div>
+            <p class="closing-sub">Sampai bertemu dalam suasana penuh semangat dan kebersamaan!</p>
+            <div class="regards">
+              Warm Regards,<br>
+              <strong>UKM F EXCELLENT</strong>
+            </div>
+          </div>
+
+          <!-- Interactive Buttons -->
+          <div class="actions-area stagger-item">
+            <div class="rsvp-feedback" id="rsvpFeedback"></div>
+            <div class="rsvp-row">
+              <button type="button" class="btn-action btn-attend" id="btnAttend">
+                ✨ I'LL BE THERE
+              </button>
+              <button type="button" class="btn-action btn-cant" id="btnCant" title="Wajib hadir ya!">
+                <span class="cant-text">CAN'T ATTEND</span>
+              </button>
+            </div>
+            <button type="button" class="btn-action btn-calendar" id="btnCalendar">
+              🗓️ Add to Calendar
+            </button>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      // 1. Generate Subtle Ambient Sparkles & Floating Petals
+      const ambientLayer = document.getElementById('ambientLayer');
+      const sparkleSymbols = ['✦', '✧', '⋆', '✿'];
+
+      for (let i = 0; i < 18; i++) {
+        const sp = document.createElement('span');
+        sp.className = 'sparkle';
+        sp.textContent = sparkleSymbols[i % sparkleSymbols.length];
+        sp.style.left = Math.random() * 96 + '%';
+        sp.style.top = Math.random() * 96 + '%';
+        sp.style.fontSize = (9 + Math.random() * 9) + 'px';
+        sp.style.setProperty('--dur', (3.2 + Math.random() * 3.5) + 's');
+        sp.style.setProperty('--delay', (Math.random() * 3) + 's');
+        ambientLayer.appendChild(sp);
+      }
+
+      for (let i = 0; i < 9; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.style.left = (5 + Math.random() * 90) + '%';
+        petal.style.top = (8 + Math.random() * 84) + '%';
+        petal.style.setProperty('--dur', (7 + Math.random() * 6) + 's');
+        petal.style.setProperty('--delay', (Math.random() * 4) + 's');
+        ambientLayer.appendChild(petal);
+      }
+
+      // 2. Realistic 3D Envelope Opening Sequence
+      const envelopeWrapper = document.getElementById('envelopeWrapper');
+      const envelope3d = document.getElementById('envelope3d');
+      const openBtn = document.getElementById('openBtn');
+      const invitationContainer = document.getElementById('invitationContainer');
+      const staggerItems = document.querySelectorAll('.stagger-item');
+      let isOpening = false;
+
+      function triggerEnvelopeOpen() {
+        if (isOpening) return;
+        isOpening = true;
+
+        // Step 1: Tactile bounce response
+        envelope3d.classList.add('tapped');
+        envelopeWrapper.classList.add('opening');
+
+        setTimeout(() => {
+          envelope3d.classList.remove('tapped');
+          // Step 2: Break wax seal smoothly
+          envelopeWrapper.classList.add('seal-broken');
+        }, 200);
+
+        setTimeout(() => {
+          // Step 3: 3D Perspective Flap rotates upward
+          envelopeWrapper.classList.add('flap-open');
+        }, 420);
+
+        setTimeout(() => {
+          // Step 4: Letter slides upward out of the pocket
+          envelopeWrapper.classList.add('letter-rising');
+        }, 980);
+
+        setTimeout(() => {
+          // Step 5: Envelope recedes and main letter expands into focus
+          envelopeWrapper.classList.add('hidden-stage');
+          invitationContainer.classList.add('active');
+          invitationContainer.setAttribute('aria-hidden', 'false');
+          launchCelebrationBurst(window.innerWidth / 2, window.innerHeight * 0.35, 34);
+        }, 1680);
+
+        setTimeout(() => {
+          // Step 6: Stagger reveal of invitation content
+          invitationContainer.classList.add('revealed');
+          staggerItems.forEach((item, index) => {
+            item.style.transitionDelay = (index * 110) + 'ms';
+          });
+        }, 1950);
+      }
+
+      envelope3d.addEventListener('click', triggerEnvelopeOpen);
+      openBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        triggerEnvelopeOpen();
+      });
+      envelope3d.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          triggerEnvelopeOpen();
+        }
+      });
+
+      // 3. Countdown Timer synchronized to WIB (UTC+7): Minggu, 22 November 2026, 14:00 WIB
+      const targetDateUTC = new Date('2026-11-22T14:00:00+07:00').getTime();
+      const cdDays = document.getElementById('cdDays');
+      const cdHours = document.getElementById('cdHours');
+      const cdMins = document.getElementById('cdMins');
+      const cdSecs = document.getElementById('cdSecs');
+      const countdownStatus = document.getElementById('countdownStatus');
+
+      function updateCountdown() {
+        const now = Date.now();
+        const diff = targetDateUTC - now;
+
+        if (diff <= 0) {
+          cdDays.textContent = '00';
+          cdHours.textContent = '00';
+          cdMins.textContent = '00';
+          cdSecs.textContent = '00';
+          countdownStatus.textContent = 'ACARA SEDANG BERLANGSUNG / SELESAI';
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / (1000 * 60)) % 60);
+        const secs = Math.floor((diff / 1000) % 60);
+
+        cdDays.textContent = String(days).padStart(2, '0');
+        cdHours.textContent = String(hours).padStart(2, '0');
+        cdMins.textContent = String(mins).padStart(2, '0');
+        cdSecs.textContent = String(secs).padStart(2, '0');
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      // 4. RSVP Buttons Logic ("I'LL BE THERE" & Playful "CAN'T ATTEND")
+      const btnAttend = document.getElementById('btnAttend');
+      const btnCant = document.getElementById('btnCant');
+      const rsvpFeedback = document.getElementById('rsvpFeedback');
+
+      const playfulRejections = [
+        "Eits, tombol ini lagi libur! Kehadiranmu wajib di Rapat Triwulan 😉✨",
+        "Ups, nggak bisa diklik! UKM F Excellent butuh suaramu, yuk klik 'I'LL BE THERE' 💛",
+        "Pilihan 'Can't Attend' sudah dicoret panitia~ Ditunggu di Classic Caffe ya! 🌸"
+      ];
+      let rejectionIdx = 0;
+
+      btnCant.addEventListener('click', () => {
+        btnCant.classList.remove('shake');
+        void btnCant.offsetWidth; // trigger reflow
+        btnCant.classList.add('shake');
+
+        rsvpFeedback.className = 'rsvp-feedback show';
+        rsvpFeedback.textContent = playfulRejections[rejectionIdx % playfulRejections.length];
+        rejectionIdx++;
+      });
+
+      btnAttend.addEventListener('click', (e) => {
+        btnAttend.classList.add('confirmed');
+        btnAttend.innerHTML = '💖 CONFIRMED! SEE YOU';
+        rsvpFeedback.className = 'rsvp-feedback show success';
+        rsvpFeedback.textContent = 'Yeay! Kehadiranmu tercatat. Sampai jumpa Minggu, 22 Nov 2026 di Classic Caffe! 🎉';
+
+        const rect = btnAttend.getBoundingClientRect();
+        launchCelebrationBurst(rect.left + rect.width / 2, rect.top, 45);
+      });
+
+      // 5. Add to Calendar (Google Calendar Link + .ics Fallback for Mobile)
+      const btnCalendar = document.getElementById('btnCalendar');
+      btnCalendar.addEventListener('click', () => {
+        const title = encodeURIComponent('Rapat Triwulan UKM F Excellent');
+        const details = encodeURIComponent(
+          'Rapat Triwulan UKM F Excellent.\nMari berkumpul, berdiskusi, menyampaikan aspirasi, dan mempererat kebersamaan.\nDress Code: PDH Excellent'
+        );
+        const location = encodeURIComponent('Classic Caffe');
+        // 22 Nov 2026, 14:00 - 17:00 WIB (UTC+7 -> 07:00Z - 10:00Z)
+        const dates = '20261122T070000Z/20261122T100000Z';
+        const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}&ctz=Asia/Jakarta`;
+
+        window.open(gcalUrl, '_blank', 'noopener,noreferrer');
+
+        rsvpFeedback.className = 'rsvp-feedback show success';
+        rsvpFeedback.textContent = 'Membuka Google Calendar untuk menyimpan jadwal Rapat Triwulan 🗓️✨';
+      });
+
+      // 6. Lightweight Canvas Particle Burst (Gold & Dusty Pink Sparkles)
+      const canvas = document.getElementById('burstCanvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      function launchCelebrationBurst(x, y, count) {
+        const colors = ['#C59B5F', '#E6CFA8', '#D89A9E', '#F3E0E1', '#FFFDF9'];
+        for (let i = 0; i < count; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 2 + Math.random() * 5.5;
+          particles.push({
+            x,
+            y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 1.5,
+            size: 3 + Math.random() * 4.5,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            alpha: 1,
+            decay: 0.015 + Math.random() * 0.015,
+            rot: Math.random() * 360
+          });
+        }
+        if (particles.length <= count) {
+          requestAnimationFrame(animateParticles);
+        }
+      }
+
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.09; // gentle gravity
+          p.alpha -= p.decay;
+          p.rot += 4;
+
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, p.alpha);
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rot * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          // Draw diamond sparkle shape
+          ctx.beginPath();
+          ctx.moveTo(0, -p.size);
+          ctx.lineTo(p.size * 0.65, 0);
+          ctx.lineTo(0, p.size);
+          ctx.lineTo(-p.size * 0.65, 0);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        });
+
+        particles = particles.filter((p) => p.alpha > 0);
+        if (particles.length > 0) {
+          requestAnimationFrame(animateParticles);
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
